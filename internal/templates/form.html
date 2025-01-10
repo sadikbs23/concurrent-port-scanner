@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Port Scanner</title>
+    <link rel="stylesheet" href="/static/css/variables.css">
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/components.css">
+    <link rel="stylesheet" href="/static/css/utilities.css">
+</head>
+<body>
+<div class="container">
+    <h1>Port Scanner</h1>
+    <form action="/scan" method="post" id="scanForm">
+        <div class="form-group">
+            <label for="host">Host:</label>
+            <input type="text" id="host" name="host" required
+                   placeholder="e.g., localhost or 192.168.1.1">
+        </div>
+        <div class="form-group">
+            <label for="startPort">Start Port:</label>
+            <input type="number" id="startPort" name="startPort" required
+                   min="1" max="65535" placeholder="e.g., 80">
+        </div>
+        <div class="form-group">
+            <label for="endPort">End Port:</label>
+            <input type="number" id="endPort" name="endPort" required
+                   min="1" max="65535" placeholder="e.g., 443">
+        </div>
+        <button type="submit" id="submitBtn">Start Scan</button>
+    </form>
+
+    <div id="loadingIndicator" class="loading">
+        <div class="spinner"></div>
+        <p>Scanning ports... Please wait</p>
+    </div>
+
+    {{if .Results}}
+    <div class="results">
+        <h2>Scan Results For Available Ports:</h2>
+        <ul class="results-list">
+            {{range .Results}}
+            {{if .IsOpen}}
+            <li>{{.Message}}</li>
+            {{end}}
+            {{end}}
+        </ul>
+    </div>
+    {{end}}
+</div>
+
+<script>
+    const form = document.getElementById('scanForm');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const submitButton = document.getElementById('submitBtn');
+
+    // Hide loading indicator initially
+    loadingIndicator.style.display = 'none';
+
+    form.addEventListener('submit', function(e) {
+        loadingIndicator.classList.add('active');
+        submitButton.disabled = true;
+    });
+
+    // Reset form state on page load
+    window.onload = function() {
+        loadingIndicator.classList.remove('active');
+        submitButton.disabled = false;
+    };
+</script>
+</body>
+</html>
