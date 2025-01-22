@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="/static/css/layout.css">
     <link rel="stylesheet" href="/static/css/components.css">
     <link rel="stylesheet" href="/static/css/utilities.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
@@ -16,27 +18,27 @@
     <form action="/scan" method="post" id="scanForm">
         <div class="form-group">
             <label for="host">Host:</label>
-            <input type="text" id="host" name="host" required
-                   placeholder="e.g., localhost or 192.168.1.1">
+            <input type="text" id="host" name="host" style="width: 220px"
+                   placeholder="e.g., localhost or 192.168.1.1" required>
         </div>
         <div class="form-group">
             <label for="startPort">Start Port:</label>
-            <input type="number" id="startPort" name="startPort" required
+            <input type="number" id="startPort" name="startPort" style="width: 200px" required
                    min="1" max="65535" placeholder="e.g., 80">
         </div>
         <div class="form-group">
             <label for="endPort">End Port:</label>
-            <input type="number" id="endPort" name="endPort" required
+            <input type="number" id="endPort" name="endPort" style="width: 200px" required
                    min="1" max="65535" placeholder="e.g., 443">
         </div>
-        <button type="submit" id="submitBtn">Start Scan</button>
+        <button type="submit" id="submitBtn" class="button button1">Start Scan</button>
     </form>
 
     <div id="loadingIndicator" class="loading">
         <div class="spinner"></div>
         <p>Scanning ports... Please wait</p>
     </div>
-
+<br>
     {{if .Results}}
     <div class="results">
         <h2>Scan Results For Available Ports:</h2>
@@ -59,13 +61,13 @@
     // Hide loading indicator initially
     loadingIndicator.style.display = 'none';
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
         loadingIndicator.classList.add('active');
         submitButton.disabled = true;
     });
 
     // Reset form state on page load
-    window.onload = function() {
+    window.onload = function () {
         loadingIndicator.classList.remove('active');
         submitButton.disabled = false;
     };
