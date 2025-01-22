@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: port-scanner-config
+data:
+  SCAN_TIMEOUT: "30"
+  MAX_PORTS: "1024"
+  CONCURRENT_SCANS: "100"
