@@ -1,34 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: port-scanner
+  name: concurrent-port-scanner
   labels:
-    app: port-scanner
+    app: concurrent-port-scanner
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: port-scanner
+      app: concurrent-port-scanner
   template:
     metadata:
       labels:
-        app: port-scanner
+        app: concurrent-port-scanner
     spec:
       containers:
         - name: port-scanner
-          image: port-scanner:latest
+          image: sadikbs23/concurrent-port-scanner:latest
           ports:
             - containerPort: 8080
-          resources:
-            limits:
-              cpu: "500m"
-              memory: "512Mi"
-            requests:
-              cpu: "200m"
-              memory: "256Mi"
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            initialDelaySeconds: 15
-            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: port-scanner-service
+spec:
+  selector:
+    app: concurrent-port-scanner
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30003 # Optional: Specify a custom NodePort (range: 30000-32767)
+  type: NodePort

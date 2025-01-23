@@ -32,13 +32,14 @@
                    min="1" max="65535" placeholder="e.g., 443">
         </div>
         <button type="submit" id="submitBtn" class="button button1">Start Scan</button>
+        <button type="button" id="resetBtn" class="button button1">Reset</button>
     </form>
 
     <div id="loadingIndicator" class="loading">
         <div class="spinner"></div>
         <p>Scanning ports... Please wait</p>
     </div>
-<br>
+    <br>
     {{if .Results}}
     <div class="results">
         <h2>Scan Results For Available Ports:</h2>
@@ -57,6 +58,7 @@
     const form = document.getElementById('scanForm');
     const loadingIndicator = document.getElementById('loadingIndicator');
     const submitButton = document.getElementById('submitBtn');
+    const resetButton = document.getElementById('resetBtn');
 
     // Hide loading indicator initially
     loadingIndicator.style.display = 'none';
@@ -64,6 +66,11 @@
     form.addEventListener('submit', function (e) {
         loadingIndicator.classList.add('active');
         submitButton.disabled = true;
+    });
+
+    // Reset button functionality
+    resetButton.addEventListener('click', function () {
+        window.location.href = 'http://localhost:8080';
     });
 
     // Reset form state on page load
